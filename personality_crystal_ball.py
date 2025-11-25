@@ -17,7 +17,7 @@ st.markdown(
     <div style='text-align:center;'>
         <img src="{AMRITA_LOGO}" width="150">
         <h1 style='color:#6A1B9A;'>🔮 Personality Crystal Ball</h1>
-        <h3 style='color:#FF4081;margin-top:-8px;'>Welcome to the Computer Expo • By V. Madhavan Grade 7 Students</h3>
+        <h3 style='color:#FF4081;margin-top:-8px;'>Welcome to the Computer Expo • By V. Madhavan Grade 7 </h3>
     </div>
     """,
     unsafe_allow_html=True
