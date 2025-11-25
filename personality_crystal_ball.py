@@ -7,7 +7,7 @@ from datetime import datetime
 # ---------------- CONFIG ----------------
 st.set_page_config(page_title="Personality Crystal Ball", page_icon="🔮", layout="centered")
 
-ADMIN_PASSWORD = "teacher123"   # change this anytime
+ADMIN_PASSWORD = "amrita123"   # change this anytime
 
 # ---------------- LOGO ----------------
 AMRITA_LOGO = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbX9L1H1flI_yurVPT2bTbpCX7dAGPBJlt2g&s"
