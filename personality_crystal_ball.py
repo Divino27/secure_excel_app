@@ -10,7 +10,7 @@ st.set_page_config(page_title="Personality Crystal Ball", page_icon="🔮", layo
 ADMIN_PASSWORD = "teacher123"   # change this anytime
 
 # ---------------- LOGO ----------------
-AMRITA_LOGO = "https://amrita.edu/wp-content/uploads/2022/01/amrita-vidyalayam-logo.png"
+AMRITA_LOGO = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbX9L1H1flI_yurVPT2bTbpCX7dAGPBJlt2g&s"
 
 st.markdown(
     f"""
