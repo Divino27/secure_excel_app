@@ -9,9 +9,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# -------------------------------------------------------
-# -------------------- CUSTOM CSS -----------------------
-# -------------------------------------------------------
+# ---------------- CUSTOM CSS ----------------
 st.markdown("""
 <style>
 body {
@@ -19,154 +17,136 @@ body {
     background-size: cover;
 }
 
-/* Clean Header Box */
-.header-clean {
-    background: rgba(255,255,255,0.15);
-    padding: 30px;
-    border-radius: 20px;
+/* HEADER BOX */
+.header-box {
+    background: rgba(255,255,255,0.95);
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.20);
     text-align: center;
-    margin-top: 10px;
-    margin-bottom: 25px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0px 6px 18px rgba(0,0,0,0.28);
+    margin-bottom: 20px;
 }
 
-/* Title text */
-.header-title {
-    font-size: 42px;
-    font-weight: 900;
-    color: #A020F0;
-    margin-bottom: 8px;
-}
-
-/* Subheading */
-.header-sub {
-    font-size: 28px;
-    font-weight: 700;
-    color: #FF1493;
-    margin-top: -10px;
-}
-
-/* Footer small text */
-.header-small {
-    font-size: 18px;
-    font-weight: 500;
-    color: #fff;
-    opacity: 0.9;
-}
-
-/* Logo */
-.logo-img {
-    width: 130px;
+/* AMRITA LOGO */
+.school-logo {
+    width: 170px;
+    border-radius: 15px;
     margin-bottom: 10px;
+}
+
+/* Robot image */
+.robot-image {
+    width: 120px;
+    margin-top: -8px;
+}
+
+/* Buttons */
+.stButton > button {
     border-radius: 12px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------------------------------------
-# -------------------- HEADER SECTION -------------------
-# -------------------------------------------------------
+# ---------------- HEADER WITH LOGO + TITLE ----------------
 
-AMRITA_LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Amrita_Vishwa_Vidyapeetham_Logo.png/800px-Amrita_Vishwa_Vidyapeetham_Logo.png"
+amrita_logo = "https://www.schoolmykids.com/smk-media/2019/01/Amrita-Vidyalayam-Boloor-Mangaluru.png"
+robot_image = "https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
 
 st.markdown(f"""
-<div class="header-clean">
-    <img src="{AMRITA_LOGO}" class="logo-img">
-    <div class="header-title">Welcome to the Computer Expo 2025 🎉</div>
-    <div class="header-sub">Amrita Vidyalayam</div>
-    <div class="header-small">A Creative Project by Grade 7 Students 💻✨</div>
+<div class="header-box">
+
+    <img src="{amrita_logo}" class="school-logo">
+
+    <h1 style="color:#8A2BE2; font-weight:900; margin-top:10px;">
+        Welcome to the Computer Expo 2025 🎉
+    </h1>
+
+    <h2 style="color:#FF1493; margin-top:-10px;">
+        Amrita Vidyalayam
+    </h2>
+
+    <h4 style="color:#333; margin-top:-5px;">
+        A Creative Project by Grade 7 Students 💻✨
+    </h4>
+
+    <img src="{robot_image}" class="robot-image">
+
 </div>
 """, unsafe_allow_html=True)
 
-# -------------------------------------------------------
-# -------------------- CSV STORAGE ----------------------
-# -------------------------------------------------------
+# ---------------- CSV SETUP ----------------
+csv_file = "futurecolor_data.csv"
 
-CSV_FILE = "futurecolor_data.csv"
+if not os.path.exists(csv_file):
+    df = pd.DataFrame(columns=["Name", "Age", "City", "Favorite Color", "Message"])
+    df.to_csv(csv_file, index=False)
 
-# Create file first time
-if not os.path.exists(CSV_FILE):
-    df_init = pd.DataFrame(columns=["Name", "Age", "City", "Favorite Color", "Message"])
-    df_init.to_csv(CSV_FILE, index=False)
-
-# -------------------------------------------------------
-# ----------------------- FORM --------------------------
-# -------------------------------------------------------
-
+# ---------------- FORM ----------------
 name = st.text_input("👤 Your Name")
 age = st.number_input("🎂 Your Age", min_value=1, max_value=100)
 city = st.text_input("🏙️ Your City")
-color = st.selectbox(
-    "🎨 Your Favourite Color",
-    ["Red", "Blue", "Green", "Yellow", "Purple", "Pink", "Black", "White"]
-)
+color = st.selectbox("🎨 Your Favourite Color",
+                     ["Red", "Blue", "Green", "Yellow", "Purple", "Pink", "Black", "White"])
 
-# -------------------------------------------------------
-# ---------------- FUTURE MESSAGES ----------------------
-# -------------------------------------------------------
-
+# ---------------- FUTURE MESSAGES ----------------
 messages = {
     "Red": (
         "🔥 You are bold, passionate, and full of unstoppable energy!\n\n"
         "Your future is filled with exciting adventures and leadership opportunities.\n\n"
         "People naturally look up to you because of your confidence and strong personality.\n\n"
+        "Whatever you dream of — sports, science, arts, or innovation — you will chase it with power!\n\n"
         "A bright and thrilling path awaits you!"
     ),
-
     "Blue": (
         "🌊 Calm, intelligent, and thoughtful — you bring peace wherever you go.\n\n"
-        "You will achieve great success in academics and creative thinking.\n\n"
-        "A future filled with knowledge and meaningful achievements is waiting for you!"
+        "Your future shows great success in academics and creative thinking.\n\n"
+        "Because of your strong focus, you will solve complex problems and achieve amazing things.\n\n"
+        "A future filled with knowledge and wisdom awaits you!"
     ),
-
     "Green": (
         "🌿 You have a gentle heart and a peaceful soul.\n\n"
-        "Your kindness and creativity will inspire many people.\n\n"
-        "A beautiful, harmonious journey lies ahead for you!"
+        "Your future is filled with kindness, creativity, and emotional strength.\n\n"
+        "You inspire many people with your calm nature and positivity.\n\n"
+        "A beautiful, harmonious journey lies ahead!"
     ),
-
     "Yellow": (
         "🌟 Cheerful, bright, and full of brilliant ideas — you are a natural creator!\n\n"
-        "You will shine in everything you do, especially in creativity and teamwork!"
+        "Your life will be full of creativity, imagination, and joyful experiences.\n\n"
+        "People love your positive energy — you make every place brighter!\n\n"
+        "You will shine in art, innovation, and teamwork!"
     ),
-
     "Purple": (
-        "🔮 Unique, imaginative, and thoughtful.\n\n"
-        "Your innovative ideas will one day make a real difference in the world!"
+        "🔮 You are unique, imaginative, and full of deep thoughts.\n\n"
+        "Your ideas are powerful enough to change the world.\n\n"
+        "Your future holds extraordinary success in creativity, strategy, and innovation."
     ),
-
     "Pink": (
-        "💖 Loving, joyful, and kind.\n\n"
-        "Your future is filled with happiness and positive relationships!"
+        "💖 You are loving, joyful, and full of kindness.\n\n"
+        "Your future is filled with friendships, laughter, and positivity.\n\n"
+        "People enjoy being around you because you make them feel valued."
     ),
-
     "Black": (
-        "⚫ Strong, focused, and determined.\n\n"
-        "Your discipline and resilience guarantee huge success ahead!"
+        "⚫ Strong, focused, and determined — you never give up!\n\n"
+        "Your future shows discipline, leadership, and huge achievements.\n\n"
+        "You stay strong even in challenges — success is waiting for you!"
     ),
-
     "White": (
-        "🤍 Calm, pure, and peaceful.\n\n"
-        "You bring harmony wherever you go — a beautiful journey awaits!"
+        "🤍 Pure-hearted, calm, and peaceful — you bring harmony everywhere.\n\n"
+        "Your future has balance, emotional strength, and quiet success.\n\n"
+        "You inspire others with your gentle and wise nature."
     )
 }
 
-# -------------------------------------------------------
-# ------------------ SUBMIT BUTTON ----------------------
-# -------------------------------------------------------
-
+# ---------------- SUBMIT BUTTON ----------------
 if st.button("✨ Reveal My Future"):
     if name == "" or city == "":
         st.error("Please fill all fields!")
     else:
         msg = messages[color]
-
         st.success(f"Hi **{name}**, here is your colourful future:")
         st.info(msg)
 
-        # Save to CSV (cloud safe)
-        df = pd.read_csv(CSV_FILE)
+        df = pd.read_csv(csv_file)
         new_row = {
             "Name": name,
             "Age": int(age),
@@ -174,39 +154,34 @@ if st.button("✨ Reveal My Future"):
             "Favorite Color": color,
             "Message": msg
         }
-
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-        df.to_csv(CSV_FILE, index=False)
+        df.to_csv(csv_file, index=False)
 
-        st.success("🎉 Your response has been saved securely!")
+        st.success("Your response has been saved! 📘")
 
-# -------------------------------------------------------
-# ------------------- ADMIN PANEL -----------------------
-# -------------------------------------------------------
-
-st.write("---")
-st.header("🔒 Admin Access Only")
-
-ADMIN_PASSWORD = "amrita123"
+# ---------------- ADMIN PANEL ----------------
+st.markdown("---")
+st.subheader("🔒 Admin Access Only")
 
 admin_pw = st.text_input("Enter admin password:", type="password")
 
 if st.button("🔐 Login"):
-    if admin_pw == ADMIN_PASSWORD:
-        st.success("Admin access granted ✔")
+    if admin_pw == "amrita123@":
+        st.success("Admin login successful!")
 
-        df_show = pd.read_csv(CSV_FILE)
-        st.dataframe(df_show)
+        df = pd.read_csv(csv_file)
+        st.dataframe(df)
 
-        # Download CSV
-        with open(CSV_FILE, "rb") as f:
-            st.download_button("📥 Download CSV File", f, file_name="futurecolor_data.csv")
+        # Download button
+        st.download_button(
+            label="📥 Download CSV Data",
+            data=open(csv_file, "rb").read(),
+            file_name="futurecolor_data.csv",
+            mime="text/csv"
+        )
     else:
         st.error("❌ Incorrect password")
 
-# -------------------------------------------------------
-# --------------------- FOOTER --------------------------
-# -------------------------------------------------------
-
+# ---------------- FOOTER ----------------
 st.write("---")
 st.caption("© 2025 • Computer Expo • Amrita Vidyalayam • Made with ❤️ by Grade 7 Students")
