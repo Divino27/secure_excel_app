@@ -66,29 +66,44 @@ body {
 
 
 # ---------------- HEADER ----------------
-st.markdown(f"""
-<div class="header-box">
+# ---------------- HEADER SECTION ----------------
+header_html = """
+<div class="header-box" style="
+    background: linear-gradient(135deg, #ffffff, #faf0ff);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.15);
+    text-align: center;
+">
 
-    <img src="https://www.schoolmykids.com/smk-media/2019/01/Amrita-Vidyalayam-Bangalore.jpg"
-         class="header-logo">
+    <!-- SCHOOL LOGO -->
+    <img src="https://www.schoolmykids.com/smk-media/2019/01/Amrita-Vidyalayam-Bangalore.png"
+         style="width:160px; border-radius:15px; margin-bottom:10px;" />
 
-    <h1 style="color:#8A2BE2; font-weight:900;">
+    <!-- TITLE -->
+    <h1 style="color:#8A2BE2; font-weight:900; margin-top:10px;">
         Welcome to the Computer Expo 2025 🎉
     </h1>
 
+    <!-- SUBTITLE -->
     <h2 style="color:#FF1493; margin-top:-10px;">
         Amrita Vidyalayam
     </h2>
 
-    <h4 style="color:#333; margin-top:-5px;">
+    <!-- SMALL TEXT -->
+    <h4 style="color:#444; margin-top:-5px;">
         A Creative Project by Grade 7 Students 💻✨
     </h4>
 
+    <!-- ROBOT ICON -->
     <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
-         class="header-robot">
+         style="width:110px; margin-top:10px;" />
 
 </div>
-""", unsafe_allow_html=True)
+"""
+
+st.markdown(header_html, unsafe_allow_html=True)
+
 
 
 # ---------------- FORM ----------------
