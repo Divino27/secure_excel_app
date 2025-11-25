@@ -2,14 +2,33 @@ import streamlit as st
 import pandas as pd
 import os
 
-# ---------------- PAGE SETTINGS ----------------
+# ----------------------------------------------------
+# PAGE SETTINGS
+# ----------------------------------------------------
 st.set_page_config(
-    page_title="FutureColor Bot - Computer Expo",
-    page_icon="🎉",
+    page_title="Future Color Bot - Computer Expo",
+    page_icon="🎨",
     layout="centered"
 )
 
-# ---------------- CUSTOM CSS ----------------
+# ----------------------------------------------------
+# ADMIN PASSWORD
+# ----------------------------------------------------
+ADMIN_PASSWORD = "amrita123@"   # CHANGE IF YOU WANT
+
+# ----------------------------------------------------
+# CLOUD CSV FILE
+# ----------------------------------------------------
+CSV_FILE = "futurecolor_data.csv"
+
+# Create CSV if not exists
+if not os.path.exists(CSV_FILE):
+    df = pd.DataFrame(columns=["Name", "Age", "City", "Favorite Color", "Message"])
+    df.to_csv(CSV_FILE, index=False)
+
+# ----------------------------------------------------
+# CUSTOM CSS
+# ----------------------------------------------------
 st.markdown("""
 <style>
 body {
@@ -33,114 +52,114 @@ body {
 }
 
 .robot-image {
-    width: 120px;
-    margin-top: -15px;
+    width: 110px;
+    margin-top: -10px;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- HEADER ----------------
-fun_image = "https://yt3.ggpht.com/ytc/AIdro_lNE9F1qUp8GvAxWoWy67enscUnKgwEB5Rj00Fm35aa-w=s800-c-k-c0x00ffffff-no-rw"
+# ----------------------------------------------------
+# HEADER
+# ----------------------------------------------------
+
+amrita_logo = "/mnt/data/13cf8c6e-fc5c-4e48-992a-02f728719cf0.png"
 robot_image = "https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
 
-st.markdown(f"""
-<div class="header-box">
-    <img src="{fun_image}" class="top-image">
-    <h1 style="color:#8A2BE2; font-weight:900;">Welcome to the Computer Expo 2025 🎉</h1>
-    <h2 style="color:#FF1493;">Amrita Vidyalayam</h2>
-    <h4 style="color:#333;">A Creative Project by V. Madhavan, 7A 💻✨</h4>
-    <img src="{robot_image}" class="robot-image">
-</div>
+st.markdown("<div class='header-box'>", unsafe_allow_html=True)
+
+if os.path.exists(amrita_logo):
+    st.image(amrita_logo, width=150)
+
+st.markdown("""
+<h1 style="color:#8A2BE2; font-weight:900;">Welcome to the Computer Expo 2025 🎉</h1>
+<h2 style="color:#FF1493;">Amrita Vidyalayam</h2>
+<h4 style="color:#333;">A Creative Project by Grade 7 Students 💻✨</h4>
 """, unsafe_allow_html=True)
 
-# ---------------- CLOUD-SAFE CSV SETUP ----------------
-csv_file = "futurecolor_data.csv"
+st.markdown(f"<img src='{robot_image}' class='robot-image'>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
-if not os.path.exists(csv_file):
-    df = pd.DataFrame(columns=["Name", "Age", "City", "Favorite Color", "Message"])
-    df.to_csv(csv_file, index=False)
+# ----------------------------------------------------
+# USER INPUT FORM
+# ----------------------------------------------------
+st.header("🎨 Discover Your Future Through Your Favourite Color!")
 
-# ---------------- FORM ----------------
 name = st.text_input("👤 Your Name")
-age = st.number_input("🎂 Your Age", min_value=1, max_value=100)
+age = st.number_input("🎂 Your Age", min_value=3, max_value=100)
 city = st.text_input("🏙️ Your City")
+
 color = st.selectbox(
-    "🎨 Your Favourite Color",
+    "🎨 Choose Your Favourite Color:",
     ["Red", "Blue", "Green", "Yellow", "Purple", "Pink", "Black", "White"]
 )
 
-# ---------------- FUTURE MESSAGES ----------------
+# ----------------------------------------------------
+# FUTURE MESSAGES FOR COLORS
+# ----------------------------------------------------
 messages = {
     "Red": (
         "🔥 You are bold, passionate, and full of unstoppable energy!\n\n"
-        "Your future is filled with exciting adventures and leadership opportunities.\n\n"
-        "People naturally look up to you because of your confidence and strong personality.\n\n"
-        "Whatever you dream of — sports, science, arts, or innovation — you will chase it with power!\n\n"
-        "A bright and thrilling path awaits you!"
+        "Your future is filled with exciting adventures and leadership opportunities.\n"
+        "People naturally admire your confidence. Big achievements await you!"
     ),
 
     "Blue": (
-        "🌊 Calm, intelligent, and thoughtful — you are someone who brings peace wherever you go.\n\n"
-        "Your future shows great success in academics and creative thinking.\n\n"
-        "Because of your strong focus and clarity, you will solve complex problems that others find difficult.\n\n"
-        "A future filled with knowledge, wisdom, and meaningful achievements waits for you!"
+        "🌊 Calm, intelligent, and thoughtful — you bring peace wherever you go.\n\n"
+        "Your future shows success in academics and creative thinking.\n"
+        "You will solve complex problems and make wise decisions."
     ),
 
     "Green": (
-        "🌿 You have a gentle heart and a peaceful soul. You care for people and nature equally.\n\n"
-        "Your future shines brightly with kindness, creativity, and emotional strength.\n\n"
-        "You will inspire many people with your calm presence, positive attitude, and ability to help others.\n\n"
-        "A beautiful, harmonious journey lies ahead for you!"
+        "🌿 You have a gentle heart and a peaceful mind.\n\n"
+        "Your future shines brightly with kindness and harmony.\n"
+        "You will inspire people with your positivity and caring nature."
     ),
 
     "Yellow": (
-        "🌟 Cheerful, bright, and full of brilliant ideas — you are a natural creator!\n\n"
-        "Your future is overflowing with creativity, imagination, and fun experiences.\n\n"
-        "People love your positive energy, and you have the power to make any place happier.\n\n"
-        "You will shine in everything you do, especially in areas like art, innovation, and teamwork!"
+        "🌟 Cheerful and creative — your imagination is powerful!\n\n"
+        "Your future is full of fun experiences, ideas, and innovation.\n"
+        "You brighten every place you enter — keep shining!"
     ),
 
     "Purple": (
-        "🔮 You are unique, imaginative, and full of deep thoughts.\n\n"
-        "Your future holds extraordinary success in fields that require creativity, strategy, and innovation.\n\n"
-        "You think differently from others — and that is your greatest strength.\n\n"
-        "One day, your ideas will truly make a difference in the world!"
+        "🔮 Unique, imaginative, and a deep thinker.\n\n"
+        "Your future holds extraordinary accomplishments.\n"
+        "Your ideas will create new possibilities in the world."
     ),
 
     "Pink": (
-        "💖 You are loving, joyful, and full of kindness.\n\n"
-        "Your future is filled with friendships, happy experiences, and opportunities to spread positivity.\n\n"
-        "People enjoy being around you because you make them feel valued and special.\n\n"
-        "A warm, cheerful, and exciting journey awaits you!"
+        "💖 Loving, joyful, and full of kindness.\n\n"
+        "Your future is full of happy moments and strong friendships.\n"
+        "People enjoy your presence and feel loved around you."
     ),
 
     "Black": (
-        "⚫ Strong, focused, and extremely determined — you never give up!\n\n"
-        "Your future shows leadership, discipline, and major achievements.\n\n"
-        "You have the power to stay calm under pressure and handle challenges better than most people.\n\n"
-        "A successful and powerful destiny is waiting for you!"
+        "⚫ Strong, focused, and determined.\n\n"
+        "Your future holds leadership, discipline, and massive achievements.\n"
+        "You can stay calm under pressure — a true achiever!"
     ),
 
     "White": (
-        "🤍 Pure-hearted, calm, and peaceful — you bring comfort and clarity to everyone around you.\n\n"
-        "Your future is full of balance, emotional strength, and gentle success.\n\n"
-        "You will create harmony in your surroundings and become a source of inspiration for others.\n\n"
-        "A serene and beautiful journey lies ahead for you!"
+        "🤍 Pure-hearted, calm, and peaceful.\n\n"
+        "Your future is full of clarity and balance.\n"
+        "You will bring harmony and inspiration to everyone around you."
     )
 }
 
-# ---------------- SUBMIT BUTTON ----------------
+# ----------------------------------------------------
+# SUBMIT BUTTON
+# ----------------------------------------------------
 if st.button("✨ Reveal My Future"):
-    if name == "" or city == "":
-        st.error("Please fill all fields!")
+    if name.strip() == "" or city.strip() == "":
+        st.error("Please fill all the details!")
     else:
         msg = messages[color]
-
         st.success(f"Hi **{name}**, here is your colourful future:")
         st.info(msg)
 
         # Save to CSV
-        df = pd.read_csv(csv_file)
+        df = pd.read_csv(CSV_FILE)
         new_row = {
             "Name": name,
             "Age": int(age),
@@ -149,47 +168,36 @@ if st.button("✨ Reveal My Future"):
             "Message": msg
         }
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-        df.to_csv(csv_file, index=False)
+        df.to_csv(CSV_FILE, index=False)
 
-        st.success("Your response has been saved securely! 🔐")
+        st.success("Your future prediction is saved securely! 📘")
 
-# ---------------- ADMIN PANEL ----------------
-st.markdown("---")
+# ----------------------------------------------------
+# ADMIN PANEL
+# ----------------------------------------------------
+st.write("---")
 st.header("🔒 Admin Access Only")
 
 admin_pw = st.text_input("Enter admin password:", type="password")
 
-# Add a login button
-login_btn = st.button("🔐 Login")
-
-if login_btn:
+if st.button("🔐 Login"):
     if admin_pw == ADMIN_PASSWORD:
         st.success("Admin access granted!")
 
-        # Load CSV
-        try:
-            df = pd.read_csv(csv_file)
-            st.dataframe(df)
+        df = pd.read_csv(CSV_FILE)
+        st.dataframe(df)
 
-            # Download CSV
-            with open(csv_file, "rb") as f:
-                csv_bytes = f.read()
-
-            st.download_button(
-                label="📥 Download Responses CSV",
-                data=csv_bytes,
-                file_name="expo_responses.csv",
-                mime="text/csv"
-            )
-
-        except Exception as e:
-            st.error("Error reading CSV file.")
-            st.write(e)
-
+        st.download_button(
+            label="📥 Download Color Bot Data (CSV)",
+            data=open(CSV_FILE, "rb").read(),
+            file_name="futurecolor_data.csv",
+            mime="text/csv"
+        )
     else:
         st.error("❌ Incorrect password")
 
-
-# ---------------- FOOTER ----------------
+# ----------------------------------------------------
+# FOOTER
+# ----------------------------------------------------
 st.write("---")
 st.caption("© 2025 • Computer Expo • Amrita Vidyalayam • Made with ❤️ by Grade 7 Students")
