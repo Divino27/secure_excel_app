@@ -25,85 +25,43 @@ body {
     background-size: cover;
 }
 
-/* HEADER BOX */
 .header-box {
-    background: rgba(255,255,255,0.95);
-    padding: 30px;
+    background: rgba(255,255,255,0.92);
+    padding: 28px;
     border-radius: 25px;
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.22);
     text-align: center;
-    box-shadow: 0px 6px 18px rgba(0,0,0,0.20);
     margin-bottom: 25px;
 }
 
-/* Logo */
-.header-logo {
-    width: 180px;
-    border-radius: 20px;
+.top-image {
+    width: 200px;
     margin-bottom: 10px;
+    border-radius: 20px;
 }
 
-/* Robot */
-.header-robot {
+.robot-image {
     width: 120px;
-    margin-top: -5px;
-}
-
-/* Buttons */
-.stButton>button {
-    background: linear-gradient(135deg, #9b5cff, #d633ff);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 18px;
-    border: none;
-    transition: 0.3s;
-}
-.stButton>button:hover {
-    transform: scale(1.05);
+    margin-top: -15px;
 }
 </style>
 """, unsafe_allow_html=True)
 
+# ---------------- HEADER WITH FUN IMAGES ----------------
 
-# ---------------- HEADER ----------------
-# ---------------- HEADER SECTION ----------------
-header_html = """
-<div class="header-box" style="
-    background: linear-gradient(135deg, #ffffff, #faf0ff);
-    padding: 30px;
-    border-radius: 25px;
-    box-shadow: 0px 6px 18px rgba(0,0,0,0.15);
-    text-align: center;
-">
+# Fun, kid-friendly images from the internet
+fun_image = "https://yt3.ggpht.com/ytc/AIdro_lNE9F1qUp8GvAxWoWy67enscUnKgwEB5Rj00Fm35aa-w=s800-c-k-c0x00ffffff-no-rw"
+robot_image = "https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
 
-    <!-- SCHOOL LOGO -->
-    <img src="https://www.schoolmykids.com/smk-media/2019/01/Amrita-Vidyalayam-Bangalore.png"
-         style="width:160px; border-radius:15px; margin-bottom:10px;" />
-
-    <!-- TITLE -->
-    <h1 style="color:#8A2BE2; font-weight:900; margin-top:10px;">
-        Welcome to the Computer Expo 2025 🎉
-    </h1>
-
-    <!-- SUBTITLE -->
-    <h2 style="color:#FF1493; margin-top:-10px;">
-        Amrita Vidyalayam
-    </h2>
-
-    <!-- SMALL TEXT -->
-    <h4 style="color:#444; margin-top:-5px;">
-        A Creative Project by Grade 7 Students 💻✨
-    </h4>
-
-    <!-- ROBOT ICON -->
-    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
-         style="width:110px; margin-top:10px;" />
-
+st.markdown(f"""
+<div class="header-box">
+    <img src="{fun_image}" class="top-image">
+    <h1 style="color:#8A2BE2; font-weight:900;">Welcome to the Computer Expo 2025 🎉</h1>
+    <h2 style="color:#FF1493;">Amrita Vidyalayam</h2>
+    <h4 style="color:#333;">A Creative Project by V. Madhavan, 7A 💻✨</h4>
+    <img src="{robot_image}" class="robot-image">
 </div>
-"""
-
-st.markdown(header_html, unsafe_allow_html=True)
-
+""", unsafe_allow_html=True)
 
 
 # ---------------- FORM ----------------
