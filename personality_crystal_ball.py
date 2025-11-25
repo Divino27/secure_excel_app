@@ -137,12 +137,47 @@ def compute_personality(a,b,c,d,e):
 
 # Personality descriptions
 personality_text = {
-    "Mind Explorer": "🧠 You love learning and solving puzzles — your future is bright!",
-    "Energy Champion": "⚡ Full of excitement and confidence — you inspire others!",
-    "Creative Genius": "🎨 Your imagination shines — you will create amazing things!",
-    "Peace Guardian": "🌿 Calm, kind, thoughtful — you make the world better.",
-    "Future Leader": "🚀 Confident and bold — you will lead others successfully!"
+    "Mind Explorer": (
+        "🧠 **Mind Explorer** — You are naturally curious and love understanding how things work. "
+        "You enjoy solving puzzles, asking questions, and discovering new ideas. "
+        "Your calm and thoughtful nature helps you notice details that others might miss. "
+        "In the future, you may shine in science, technology, research, or any field that requires deep thinking. "
+        "Keep exploring the world with your brilliant mind — great discoveries await you!"
+    ),
+
+    "Energy Champion": (
+        "⚡ **Energy Champion** — You are full of excitement, enthusiasm, and unstoppable energy! "
+        "People around you feel motivated and cheerful because of your lively spirit. "
+        "You love action, movement, and taking the lead during activities. "
+        "Your confidence and courage will take you far in sports, leadership roles, teamwork, and even creative projects. "
+        "Your bright energy lights up every place you go — the future is yours to conquer!"
+    ),
+
+    "Creative Genius": (
+        "🎨 **Creative Genius** — Your imagination is one of your greatest strengths. "
+        "You think in colors, stories, shapes, and ideas that are unique and inspiring. "
+        "Whether it’s drawing, writing, designing, building, or dreaming — creativity flows freely in you. "
+        "Your ability to turn simple things into something magical makes you truly special. "
+        "The world needs your ideas, and your creative spark will help you achieve incredible things in the future!"
+    ),
+
+    "Peace Guardian": (
+        "🌿 **Peace Guardian** — You are gentle, kind-hearted, and thoughtful. "
+        "People feel safe and comfortable around you because of your calm presence. "
+        "You listen, understand, and care deeply about the feelings of others. "
+        "Your peaceful nature helps you make friends easily and build harmony wherever you go. "
+        "In the future, you may become a great counselor, teacher, healer, or leader who brings people together with kindness."
+    ),
+
+    "Future Leader": (
+        "🚀 **Future Leader** — You are confident, bold, and ready to take charge! "
+        "When you speak, people listen. When you plan, others follow. "
+        "You have strong decision-making skills and the ability to guide teams toward success. "
+        "Your natural leadership will help you excel in business, innovation, community service, or any field where you take the lead. "
+        "Your strength and determination will inspire many — the world needs future leaders like you!"
+    )
 }
+
 
 # ---------------- SAVE RESULT ----------------
 if submitted:
