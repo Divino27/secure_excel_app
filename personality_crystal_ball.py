@@ -154,25 +154,41 @@ if st.button("✨ Reveal My Future"):
         st.success("Your response has been saved securely! 🔐")
 
 # ---------------- ADMIN PANEL ----------------
-st.write("---")
-st.write("### 🔒 Admin Access Only")
+st.markdown("---")
+st.header("🔒 Admin Access Only")
 
 admin_pw = st.text_input("Enter admin password:", type="password")
 
-if admin_pw == "Amrita2025":   # CHANGE IF YOU WANT
-    st.success("Admin access granted!")
+# Add a login button
+login_btn = st.button("🔐 Login")
 
-    df = pd.read_csv(csv_file)
-    st.dataframe(df)
+if login_btn:
+    if admin_pw == ADMIN_PASSWORD:
+        st.success("Admin access granted!")
 
-    st.download_button(
-        label="📥 Download Visitor Data (CSV)",
-        data=df.to_csv(index=False),
-        file_name="futurecolor_data.csv",
-        mime="text/csv"
-    )
-elif admin_pw != "":
-    st.error("Incorrect password ❌")
+        # Load CSV
+        try:
+            df = pd.read_csv(csv_file)
+            st.dataframe(df)
+
+            # Download CSV
+            with open(csv_file, "rb") as f:
+                csv_bytes = f.read()
+
+            st.download_button(
+                label="📥 Download Responses CSV",
+                data=csv_bytes,
+                file_name="expo_responses.csv",
+                mime="text/csv"
+            )
+
+        except Exception as e:
+            st.error("Error reading CSV file.")
+            st.write(e)
+
+    else:
+        st.error("❌ Incorrect password")
+
 
 # ---------------- FOOTER ----------------
 st.write("---")
