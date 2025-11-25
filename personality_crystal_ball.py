@@ -1,231 +1,179 @@
-# personality_crystal_ball.py
 import streamlit as st
 import pandas as pd
 import os
-from datetime import datetime
 
-# ---------------- CONFIG ----------------
-st.set_page_config(page_title="Personality Crystal Ball", page_icon="🔮", layout="centered")
-
-ADMIN_PASSWORD = "amrita123@"   # change this anytime
-
-# ---------------- LOGO ----------------
-AMRITA_LOGO = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbX9L1H1flI_yurVPT2bTbpCX7dAGPBJlt2g&s"
-
-st.markdown(
-    f"""
-    <div style='text-align:center;'>
-        <img src="{AMRITA_LOGO}" width="150">
-        <h1 style='color:#6A1B9A;'>🔮 Personality Crystal Ball</h1>
-        <h3 style='color:#FF4081;margin-top:-8px;'>Welcome to the Computer Expo • By V. Madhavan Grade 7 </h3>
-    </div>
-    """,
-    unsafe_allow_html=True
+# ---------------- PAGE SETTINGS ----------------
+st.set_page_config(
+    page_title="FutureColor Bot - Computer Expo",
+    page_icon="🎉",
+    layout="centered"
 )
 
-# ---------------- CLOUD-SAFE HIDDEN CSV STORAGE ----------------
-# Create hidden data file inside the app folder
-DATA_FILE = ".hidden_personality_data.csv"
-
-# Create the CSV if missing
-if not os.path.exists(DATA_FILE):
-    df_init = pd.DataFrame(columns=[
-        "Timestamp", "Name", "Class", "Q1", "Q2", "Q3", "Q4", "Q5", "Personality", "Message"
-    ])
-    df_init.to_csv(DATA_FILE, index=False)
-
-# ---------------- STYLES ----------------
+# ---------------- CUSTOM CSS ----------------
 st.markdown("""
 <style>
-.top-card {
-    background: linear-gradient(135deg,#fff7f0,#fef6ff);
-    padding:20px;
-    border-radius:14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    text-align:center;
+body {
+    background: linear-gradient(135deg, #ffe9d6, #fff4e3, #fbe4c2);
+    background-size: cover;
 }
-.question {
-    background: #ffffff;
-    padding:12px;
-    border-radius:10px;
-    margin-bottom:10px;
+
+.header-box {
+    background: rgba(255,255,255,0.92);
+    padding: 28px;
+    border-radius: 25px;
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.22);
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.top-image {
+    width: 200px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+}
+
+.robot-image {
+    width: 120px;
+    margin-top: -15px;
 }
 </style>
 """, unsafe_allow_html=True)
 
+# ---------------- HEADER ----------------
+fun_image = "https://yt3.ggpht.com/ytc/AIdro_lNE9F1qUp8GvAxWoWy67enscUnKgwEB5Rj00Fm35aa-w=s800-c-k-c0x00ffffff-no-rw"
+robot_image = "https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
+
+st.markdown(f"""
+<div class="header-box">
+    <img src="{fun_image}" class="top-image">
+    <h1 style="color:#8A2BE2; font-weight:900;">Welcome to the Computer Expo 2025 🎉</h1>
+    <h2 style="color:#FF1493;">Amrita Vidyalayam</h2>
+    <h4 style="color:#333;">A Creative Project by V. Madhavan, 7A 💻✨</h4>
+    <img src="{robot_image}" class="robot-image">
+</div>
+""", unsafe_allow_html=True)
+
+# ---------------- CLOUD-SAFE CSV SETUP ----------------
+csv_file = "futurecolor_data.csv"
+
+if not os.path.exists(csv_file):
+    df = pd.DataFrame(columns=["Name", "Age", "City", "Favorite Color", "Message"])
+    df.to_csv(csv_file, index=False)
+
 # ---------------- FORM ----------------
-st.header("Tell the Crystal Ball about you 🔍")
+name = st.text_input("👤 Your Name")
+age = st.number_input("🎂 Your Age", min_value=1, max_value=100)
+city = st.text_input("🏙️ Your City")
+color = st.selectbox(
+    "🎨 Your Favourite Color",
+    ["Red", "Blue", "Green", "Yellow", "Purple", "Pink", "Black", "White"]
+)
 
-with st.form("personality_form"):
-    name = st.text_input("Your Name")
-    student_class = st.text_input("Class / Grade")
-
-    st.write("### Quick Questions")
-    q1 = st.radio("1) Are you usually calm or energetic?",
-                  ["Calm", "Energetic", "Both equally"])
-    q2 = st.radio("2) Do you prefer indoors or outdoors?",
-                  ["Indoors", "Outdoors", "Both"])
-    q3 = st.radio("3) Would you rather draw or play sports?",
-                  ["Draw / Create", "Sports / Movement", "Both"])
-    q4 = st.radio("4) Are you shy or talkative?",
-                  ["Shy", "Talkative", "Depends"])
-    q5 = st.radio("5) Favorite subject?",
-                  ["Math / Science", "Arts", "Physical Education", "Languages", "Other"])
-
-    submitted = st.form_submit_button("✨ Reveal My Personality")
-
-# ---------------- PERSONALITY LOGIC ----------------
-def compute_personality(a,b,c,d,e):
-    score = {"Mind Explorer":0, "Energy Champion":0, "Creative Genius":0,
-             "Peace Guardian":0, "Future Leader":0}
-
-    # Q1
-    if a == "Calm":
-        score["Peace Guardian"] += 2
-        score["Mind Explorer"] += 1
-    elif a == "Energetic":
-        score["Energy Champion"] += 2
-        score["Future Leader"] += 1
-    else:
-        score["Future Leader"] += 1
-        score["Creative Genius"] += 1
-
-    # Q2
-    if b == "Indoors":
-        score["Mind Explorer"] += 2
-        score["Creative Genius"] += 1
-    elif b == "Outdoors":
-        score["Energy Champion"] += 2
-    else:
-        score["Peace Guardian"] += 1
-        score["Creative Genius"] += 1
-
-    # Q3
-    if c == "Draw / Create":
-        score["Creative Genius"] += 2
-    elif c == "Sports / Movement":
-        score["Energy Champion"] += 2
-        score["Future Leader"] += 1
-    else:
-        score["Creative Genius"] += 1
-        score["Energy Champion"] += 1
-
-    # Q4
-    if d == "Shy":
-        score["Mind Explorer"] += 2
-        score["Peace Guardian"] += 1
-    elif d == "Talkative":
-        score["Future Leader"] += 2
-    else:
-        score["Mind Explorer"] += 1
-        score["Future Leader"] += 1
-
-    # Q5
-    if e == "Math / Science":
-        score["Mind Explorer"] += 2
-    elif e == "Arts":
-        score["Creative Genius"] += 2
-    elif e == "Physical Education":
-        score["Energy Champion"] += 2
-    elif e == "Languages":
-        score["Peace Guardian"] += 1
-        score["Mind Explorer"] += 1
-    else:
-        score["Mind Explorer"] += 1
-
-    return max(score, key=score.get)
-
-# Personality descriptions
-personality_text = {
-    "Mind Explorer": (
-        "🧠 **Mind Explorer** — You are naturally curious and love understanding how things work. "
-        "You enjoy solving puzzles, asking questions, and discovering new ideas. "
-        "Your calm and thoughtful nature helps you notice details that others might miss. "
-        "In the future, you may shine in science, technology, research, or any field that requires deep thinking. "
-        "Keep exploring the world with your brilliant mind — great discoveries await you!"
+# ---------------- FUTURE MESSAGES ----------------
+messages = {
+    "Red": (
+        "🔥 You are bold, passionate, and full of unstoppable energy!\n\n"
+        "Your future is filled with exciting adventures and leadership opportunities.\n\n"
+        "People naturally look up to you because of your confidence and strong personality.\n\n"
+        "Whatever you dream of — sports, science, arts, or innovation — you will chase it with power!\n\n"
+        "A bright and thrilling path awaits you!"
     ),
 
-    "Energy Champion": (
-        "⚡ **Energy Champion** — You are full of excitement, enthusiasm, and unstoppable energy! "
-        "People around you feel motivated and cheerful because of your lively spirit. "
-        "You love action, movement, and taking the lead during activities. "
-        "Your confidence and courage will take you far in sports, leadership roles, teamwork, and even creative projects. "
-        "Your bright energy lights up every place you go — the future is yours to conquer!"
+    "Blue": (
+        "🌊 Calm, intelligent, and thoughtful — you are someone who brings peace wherever you go.\n\n"
+        "Your future shows great success in academics and creative thinking.\n\n"
+        "Because of your strong focus and clarity, you will solve complex problems that others find difficult.\n\n"
+        "A future filled with knowledge, wisdom, and meaningful achievements waits for you!"
     ),
 
-    "Creative Genius": (
-        "🎨 **Creative Genius** — Your imagination is one of your greatest strengths. "
-        "You think in colors, stories, shapes, and ideas that are unique and inspiring. "
-        "Whether it’s drawing, writing, designing, building, or dreaming — creativity flows freely in you. "
-        "Your ability to turn simple things into something magical makes you truly special. "
-        "The world needs your ideas, and your creative spark will help you achieve incredible things in the future!"
+    "Green": (
+        "🌿 You have a gentle heart and a peaceful soul. You care for people and nature equally.\n\n"
+        "Your future shines brightly with kindness, creativity, and emotional strength.\n\n"
+        "You will inspire many people with your calm presence, positive attitude, and ability to help others.\n\n"
+        "A beautiful, harmonious journey lies ahead for you!"
     ),
 
-    "Peace Guardian": (
-        "🌿 **Peace Guardian** — You are gentle, kind-hearted, and thoughtful. "
-        "People feel safe and comfortable around you because of your calm presence. "
-        "You listen, understand, and care deeply about the feelings of others. "
-        "Your peaceful nature helps you make friends easily and build harmony wherever you go. "
-        "In the future, you may become a great counselor, teacher, healer, or leader who brings people together with kindness."
+    "Yellow": (
+        "🌟 Cheerful, bright, and full of brilliant ideas — you are a natural creator!\n\n"
+        "Your future is overflowing with creativity, imagination, and fun experiences.\n\n"
+        "People love your positive energy, and you have the power to make any place happier.\n\n"
+        "You will shine in everything you do, especially in areas like art, innovation, and teamwork!"
     ),
 
-    "Future Leader": (
-        "🚀 **Future Leader** — You are confident, bold, and ready to take charge! "
-        "When you speak, people listen. When you plan, others follow. "
-        "You have strong decision-making skills and the ability to guide teams toward success. "
-        "Your natural leadership will help you excel in business, innovation, community service, or any field where you take the lead. "
-        "Your strength and determination will inspire many — the world needs future leaders like you!"
+    "Purple": (
+        "🔮 You are unique, imaginative, and full of deep thoughts.\n\n"
+        "Your future holds extraordinary success in fields that require creativity, strategy, and innovation.\n\n"
+        "You think differently from others — and that is your greatest strength.\n\n"
+        "One day, your ideas will truly make a difference in the world!"
+    ),
+
+    "Pink": (
+        "💖 You are loving, joyful, and full of kindness.\n\n"
+        "Your future is filled with friendships, happy experiences, and opportunities to spread positivity.\n\n"
+        "People enjoy being around you because you make them feel valued and special.\n\n"
+        "A warm, cheerful, and exciting journey awaits you!"
+    ),
+
+    "Black": (
+        "⚫ Strong, focused, and extremely determined — you never give up!\n\n"
+        "Your future shows leadership, discipline, and major achievements.\n\n"
+        "You have the power to stay calm under pressure and handle challenges better than most people.\n\n"
+        "A successful and powerful destiny is waiting for you!"
+    ),
+
+    "White": (
+        "🤍 Pure-hearted, calm, and peaceful — you bring comfort and clarity to everyone around you.\n\n"
+        "Your future is full of balance, emotional strength, and gentle success.\n\n"
+        "You will create harmony in your surroundings and become a source of inspiration for others.\n\n"
+        "A serene and beautiful journey lies ahead for you!"
     )
 }
 
-
-# ---------------- SAVE RESULT ----------------
-if submitted:
-    if name.strip() == "":
-        st.error("Please enter your name.")
+# ---------------- SUBMIT BUTTON ----------------
+if st.button("✨ Reveal My Future"):
+    if name == "" or city == "":
+        st.error("Please fill all fields!")
     else:
-        personality = compute_personality(q1,q2,q3,q4,q5)
-        message = personality_text[personality]
+        msg = messages[color]
 
-        st.success(f"✨ **{name}**, you are a **{personality}**!")
-        st.info(message)
+        st.success(f"Hi **{name}**, here is your colourful future:")
+        st.info(msg)
 
-        # Save to CSV (cloud-safe)
-        df_existing = pd.read_csv(DATA_FILE)
+        # Save to CSV
+        df = pd.read_csv(csv_file)
         new_row = {
-            "Timestamp": datetime.now().isoformat(),
             "Name": name,
-            "Class": student_class,
-            "Q1": q1, "Q2": q2, "Q3": q3, "Q4": q4, "Q5": q5,
-            "Personality": personality,
-            "Message": message
+            "Age": int(age),
+            "City": city,
+            "Favorite Color": color,
+            "Message": msg
         }
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        df.to_csv(csv_file, index=False)
 
-        df_updated = pd.concat([df_existing, pd.DataFrame([new_row])], ignore_index=True)
-        df_updated.to_csv(DATA_FILE, index=False)
-
-        st.success("Your response was saved securely! 🔐")
+        st.success("Your response has been saved securely! 🔐")
 
 # ---------------- ADMIN PANEL ----------------
-st.markdown("---")
-st.header("🔒 Admin Panel (Owner only)")
+st.write("---")
+st.write("### 🔒 Admin Access Only")
 
-admin_pw = st.text_input("Enter admin password", type="password")
+admin_pw = st.text_input("Enter admin password:", type="password")
 
-if st.button("Unlock Admin Panel"):
-    if admin_pw == ADMIN_PASSWORD:
-        st.success("Admin access granted ✔")
-        df = pd.read_csv(DATA_FILE)
-        st.dataframe(df)
+if admin_pw == "Amrita2025":   # CHANGE IF YOU WANT
+    st.success("Admin access granted!")
 
-        st.download_button(
-            "📥 Download CSV",
-            df.to_csv(index=False),
-            file_name="personality_data.csv",
-            mime="text/csv"
-        )
-    else:
-        st.error("Wrong admin password ❌")
+    df = pd.read_csv(csv_file)
+    st.dataframe(df)
 
-# Footer
-st.caption("Data is stored in a hidden CSV file. Only the owner can access it.")
+    st.download_button(
+        label="📥 Download Visitor Data (CSV)",
+        data=df.to_csv(index=False),
+        file_name="futurecolor_data.csv",
+        mime="text/csv"
+    )
+elif admin_pw != "":
+    st.error("Incorrect password ❌")
+
+# ---------------- FOOTER ----------------
+st.write("---")
+st.caption("© 2025 • Computer Expo • Amrita Vidyalayam • Made with ❤️ by Grade 7 Students")
