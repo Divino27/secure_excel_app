@@ -4,99 +4,101 @@ import os
 
 # ---------------- PAGE SETTINGS ----------------
 st.set_page_config(
-    page_title="Future Personality Bot",
+    page_title="Personality Crystal Ball - Computer Expo",
     page_icon="🔮",
     layout="centered"
 )
 
 # ---------------- ADMIN SETTINGS ----------------
-ADMIN_PASSWORD = "owner123"   # <-- CHANGE THIS TO ANY PASSWORD YOU WANT
+ADMIN_PASSWORD = "owner123"   # Change this for security
 DATA_FILE = "secure_data.csv"  # Hidden CSV file
 
-# ---------------- INITIAL SETUP ----------------
+# ---------------- SETUP STORAGE ----------------
 if not os.path.exists(DATA_FILE):
-    df = pd.DataFrame(columns=["Name", "Age", "City", "Favourite Color", "Message"])
+    df = pd.DataFrame(columns=["Name", "Age", "City", "Choice", "Personality Message"])
     df.to_csv(DATA_FILE, index=False)
 
-# ---------------- HEADER ----------------
-st.markdown("""
-<h1 style='text-align:center; color:#8A2BE2;'>🔮 Future Predictor 2025</h1>
-<h3 style='text-align:center; color:#FF1493;'>Amrita Vidyalayam • Computer Expo</h3>
+# ---------------- AMRITA LOGO ----------------
+logo_url = "https://amrita.edu/wp-content/uploads/2022/01/amrita-vidyalayam-logo.png"
+
+st.markdown(f"""
+<div style='text-align:center;'>
+    <img src="{logo_url}" width="180">
+    <h1 style='color:#8A2BE2; font-weight:900;'>Welcome to the Computer Expo 2025 🎉</h1>
+    <h3 style='color:#FF1493;'>Presented by Grade 7 Students • Amrita Vidyalayam</h3>
+</div>
 """, unsafe_allow_html=True)
 
-st.write("### Tell me about you and I will reveal your colourful future! 🎨✨")
+st.write("---")
 
-# ---------------- USER FORM ----------------
+# ---------------- PERSONALITY OPTIONS ----------------
+st.markdown("### 🔮 Choose one option and I will reveal your personality!")
+
+options = {
+    "Adventurer": "🌟 You are brave, energetic, and love exploring new things! Your future is filled with exciting challenges and victories.",
+    "Thinker": "🧠 You are calm, logical, and love solving puzzles. You will succeed in science, research, and innovation!",
+    "Artist": "🎨 Creative, expressive, and full of imagination! You will shine in art, design, and storytelling.",
+    "Leader": "👑 Confident, strong, and inspiring — people follow your ideas. A successful leadership future awaits you!",
+    "Helper": "💖 Kind, supportive, and caring — you make people feel safe and valued. Your future impacts many lives positively.",
+    "Inventor": "⚙️ Curious and innovative — you love building things. You will create something amazing one day!",
+}
+
+choice_list = list(options.keys())
+
+# ---------------- FORM INPUTS ----------------
 name = st.text_input("👤 Your Name")
 age = st.number_input("🎂 Your Age", min_value=1, max_value=100)
 city = st.text_input("🏙️ Your City")
+selected_choice = st.selectbox("✨ Choose the one that feels like you", choice_list)
 
-color = st.selectbox(
-    "🎨 Choose Your Favourite Color",
-    ["Red", "Blue", "Green", "Yellow", "Purple", "Pink", "Black", "White"]
-)
-
-# ---------------- FUTURE MESSAGES ----------------
-messages = {
-    "Red": "🔥 You are bold, passionate, and full of unstoppable energy! Leaders like you shape the future.",
-    "Blue": "🌊 Calm and intelligent — your future is filled with academic success and deep wisdom.",
-    "Green": "🌿 Kind-hearted and peaceful — you inspire everyone around you.",
-    "Yellow": "🌟 Bright and cheerful — your creativity will take you far!",
-    "Purple": "🔮 Unique thinker — your imagination will change the world!",
-    "Pink": "💖 Loving and joyful — friendships and happiness follow you.",
-    "Black": "⚫ Strong and determined — success is guaranteed in your journey.",
-    "White": "🤍 Pure and calm — you spread peace wherever you go."
-}
-
-# ---------------- REVEAL BUTTON ----------------
-if st.button("✨ Reveal My Future"):
+# ---------------- REVEAL PERSONALITY BUTTON ----------------
+if st.button("🔍 Reveal My Personality"):
     if name.strip() == "" or city.strip() == "":
-        st.error("Please fill all fields properly!")
+        st.error("Please fill all fields!")
     else:
-        future_msg = messages[color]
-        st.success(f"Hi **{name}**, here is your colourful future:")
-        st.info(future_msg)
+        personality_msg = options[selected_choice]
 
-        # Save Data
+        st.success(f"Hi **{name}**, here is your personality:")
+        st.info(personality_msg)
+
+        # SAVE ENTRY
         df = pd.read_csv(DATA_FILE)
         new_row = {
             "Name": name,
             "Age": age,
             "City": city,
-            "Favourite Color": color,
-            "Message": future_msg
+            "Choice": selected_choice,
+            "Personality Message": personality_msg
         }
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
         df.to_csv(DATA_FILE, index=False)
 
-        st.success("Your response has been saved securely! 🔐")
+        st.success("Your response was saved securely! 🔐")
 
 st.write("---")
 
 # ---------------- ADMIN PANEL ----------------
-st.markdown("## 🔒 Admin Panel (Owner Only)")
+st.markdown("## 🔒 Admin Panel (Owner only)")
 
-admin_input = st.text_input("Enter admin password to view data", type="password")
+admin_pass = st.text_input("Enter admin password", type="password")
 
 if st.button("Unlock Admin Panel"):
-    if admin_input == ADMIN_PASSWORD:
+    if admin_pass == ADMIN_PASSWORD:
         st.success("Admin Panel Unlocked ✔")
 
         df = pd.read_csv(DATA_FILE)
-        st.write("### 📁 Visitor Data")
+        st.write("### 📁 Saved Visitor Data")
         st.dataframe(df)
 
         st.download_button(
             label="📥 Download Data as CSV",
             data=df.to_csv(index=False),
-            file_name="visitor_data.csv",
+            file_name="expo_personality_data.csv",
             mime="text/csv"
         )
-
     else:
         st.error("❌ Wrong admin password!")
 
-
-# ---------------- FOOTER ----------------
 st.write("---")
-st.caption("© 2025 • Future Predictor Bot • Made with ❤️ for Computer Expo")
+
+st.caption("© 2025 • Personality Crystal Ball • Computer Expo • Amrita Vidyalayam")
