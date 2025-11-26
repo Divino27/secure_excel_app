@@ -57,7 +57,7 @@ st.markdown(f"""
 <div class="header-box">
     <img src="{fun_image}" class="top-image">
     <h1 style="color:#8A2BE2; font-weight:900;">Welcome to the Computer Expo 2025 🎉</h1>
-    <h2 style="color:#FF1493;">Amrita Vidyalayam</h2>
+    <h2 style="color:#FF1493;">Amrita Vidyalayam, Kovur</h2>
     <h4 style="color:#333;">A Creative Project by V. Madhavan, 7A 💻✨</h4>
     <img src="{robot_image}" class="robot-image">
 </div>
